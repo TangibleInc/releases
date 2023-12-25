@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+main() {
+
+  local org=tangibleinc
+  local repo=template-system
+  local branch=main
+  local zipfile=tangible-template-system-latest.zip
+
+  mkdir -p vendor
+
+  cd vendor
+  if [ -d "$repo" ]; then
+    rm -rf "$repo"
+  fi
+
+  curl -sL https://github.com/$org/$repo/archive/refs/heads/$branch.tar.gz | tar xz
+  mv "${repo}-${branch}" "$repo"
+
+  if [ -f "$zipfile" ]; then
+    rm "$zipfile"
+  fi
+  zip -r "$zipfile" "$repo"
+  mv "$zipfile" ..
+}
+
+main "$@"
