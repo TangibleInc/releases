@@ -3,7 +3,7 @@
 This repository includes newest releases of open-source projects with permanent URLs, for ease of distribution, install on WordPress Playground, and archival purpose.
 
 - [Tangible Template System](https://raw.githubusercontent.com/tangibleinc/releases/main/tangible-template-system.zip) (ZIP)
-  - Try setting up [Git Updater](https://github.com/afragen/git-updater) to get fresh updates
+  - Optionally, download and set up [Git Updater](https://github.com/afragen/git-updater) from [its latest zip archive](https://github.com/afragen/git-updater/releases/latest) to get fresh updates
 
 - Template collections
   - From [Uiverse Galaxy](https://github.com/uiverse-io/galaxy)
