@@ -11,7 +11,7 @@ main() {
   local org=tangibleinc
   local repo=template-system
   local branch=main
-  local zipfile=tangible-template-system-latest.zip
+  local zipfile=tangible-template-system.zip
 
   if [ -z "$*" ]; then
     help
@@ -26,10 +26,10 @@ main() {
       template)
         echo "Template System"
         cd vendor
+
         if [ -d "$repo" ]; then
           rm -rf "$repo"
         fi
-
         curl -sL https://github.com/$org/$repo/archive/refs/heads/$branch.tar.gz | tar xz
         mv "${repo}-${branch}" "$repo"
 
@@ -37,7 +37,7 @@ main() {
           rm "$zipfile"
         fi
         zip -r "$zipfile" "$repo"
-        mv "$zipfile" ../plugins
+        mv "$zipfile" ../plugins/tangible-template-system.zip
         cd ..
         echo "Created: $zipfile"
       ;;
@@ -45,9 +45,10 @@ main() {
       loops)
         echo "Loops & Logic"
         cd vendor
-        zipfile=tangible-loops-and-logic-latest.zip
-        curl -LO https://bitbucket.org/tangibleinc/loops-and-logic/downloads/"$zipfile"
-        mv "$zipfile" ../plugins
+        zipfile=tangible-loops-and-logic.zip
+        local latest=tangible-loops-and-logic-latest.zip
+        curl -LO https://bitbucket.org/tangibleinc/loops-and-logic/downloads/"$latest"
+        mv "$latest" ../plugins/"$zipfile"
         cd ..
         echo "Created: $zipfile"
       ;;
