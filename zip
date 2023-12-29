@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -eou pipefail
 
+help() {
+  echo "Usage: ./zip [plugin]"
+  echo -e "Plugins:\n  template - Template System\n  loops - Loops & Logic"
+}
+
 main() {
 
   local org=tangibleinc
@@ -8,21 +13,50 @@ main() {
   local branch=main
   local zipfile=tangible-template-system-latest.zip
 
+  if [ -z "$*" ]; then
+    help
+    exit
+  fi
+
   mkdir -p vendor
 
-  cd vendor
-  if [ -d "$repo" ]; then
-    rm -rf "$repo"
-  fi
+  for arg in "$@"
+  do
+    case "$arg" in
+      template)
+        echo "Template System"
+        cd vendor
+        if [ -d "$repo" ]; then
+          rm -rf "$repo"
+        fi
 
-  curl -sL https://github.com/$org/$repo/archive/refs/heads/$branch.tar.gz | tar xz
-  mv "${repo}-${branch}" "$repo"
+        curl -sL https://github.com/$org/$repo/archive/refs/heads/$branch.tar.gz | tar xz
+        mv "${repo}-${branch}" "$repo"
 
-  if [ -f "$zipfile" ]; then
-    rm "$zipfile"
-  fi
-  zip -r "$zipfile" "$repo"
-  mv "$zipfile" ..
+        if [ -f "$zipfile" ]; then
+          rm "$zipfile"
+        fi
+        zip -r "$zipfile" "$repo"
+        mv "$zipfile" ../plugins
+        cd ..
+        echo "Created: $zipfile"
+      ;;
+
+      loops)
+        echo "Loops & Logic"
+        cd vendor
+        zipfile=tangible-loops-and-logic-latest.zip
+        curl -LO https://bitbucket.org/tangibleinc/loops-and-logic/downloads/"$zipfile"
+        mv "$zipfile" ../plugins
+        cd ..
+        echo "Created: $zipfile"
+      ;;
+
+      *)
+        help
+      ;;
+    esac
+  done
 }
 
 main "$@"
